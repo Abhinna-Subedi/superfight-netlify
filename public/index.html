@@ -1,96 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import "./App.css";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Superfight Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .App {
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <!-- React and ReactDOM from CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
 
-// Generate 100 hero cards and 500 ability cards
-const heroCards = Array.from({ length: 100 }, (_, i) => `Hero #${i + 1}`);
-const abilityCards = Array.from({ length: 500 }, (_, i) => `Ability #${i + 1}`);
+  <!-- Your application logic -->
+  <script>
+    const App = () => {
+      return React.createElement('div', { className: 'App' }, 
+        React.createElement('h1', null, 'Hello, World! Welcome to Superfight!'),
+        React.createElement('p', null, 'This is a simple React app without build tools.')
+      );
+    };
 
-function getRandomCard(cards) {
-  const randIndex = Math.floor(Math.random() * cards.length);
-  return cards[randIndex];
-}
-
-function App() {
-  const [hero, setHero] = useState("");
-  const [drawnCards, setDrawnCards] = useState([]);
-  const [selectedCards, setSelectedCards] = useState([]);
-
-  // Initialize with a random hero
-  useEffect(() => {
-    setHero(getRandomCard(heroCards));
-  }, []);
-
-  // Draw 3 random ability cards
-  const drawThree = () => {
-    const newCards = Array.from({ length: 3 }, () => getRandomCard(abilityCards));
-    setDrawnCards(newCards);
-    setSelectedCards([]);
-  };
-
-  // Handle card selection
-  const handleCardClick = (card) => {
-    if (selectedCards.includes(card)) return;
-    setSelectedCards([...selectedCards, card]);
-  };
-
-  return (
-    <div className="app">
-      {/* Hero Card (always centered) */}
-      <motion.div 
-        className="card hero-card"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        {hero}
-      </motion.div>
-
-      {/* Draw button */}
-      <button className="draw-button" onClick={drawThree}>
-        Draw 3 Cards
-      </button>
-
-      {/* Drawn cards row */}
-      <div className="cards-row">
-        {drawnCards.map((card, index) => (
-          !selectedCards.includes(card) && (
-            <motion.div
-              key={index}
-              className="card ability-card"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.05 }}
-              onClick={() => handleCardClick(card)}
-              layoutId={`card-${index}`}
-            >
-              {card}
-            </motion.div>
-          )
-        ))}
-      </div>
-
-      {/* Selected cards hand (top right) */}
-      <div className="hand">
-        {selectedCards.map((card, index) => (
-          <motion.div
-            key={card}
-            className="card ability-card"
-            initial={{ x: 0, y: 0 }}
-            animate={{ 
-              x: 100 + index * 20,
-              y: -100 - index * 10,
-              rotate: -5 + index * 5
-            }}
-            transition={{ type: "spring", stiffness: 300 }}
-            layoutId={`card-${drawnCards.indexOf(card)}`}
-          >
-            {card}
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-export default App;p
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(App));
+  </script>
+</body>
+</html>
